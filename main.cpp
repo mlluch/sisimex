@@ -84,16 +84,14 @@ int explorar(MCP mcp, YellowPages y) {
 	MCC *mccCandidats[10]; // llista d'apuntadors a MCC que tenen el que busquem
 	MCC *mcc;              //MCC seleccionat de tots els candidats
 
-	int index;
-
-	srand(time(NULL));
 
 	candidats=ConsultarYellowPages(y, mccCandidats, mcp.request);
 	if (candidats > 0) {
 		
-		mcc = mccCandidats[rand()%(candidats)]; // Tria aleatòria del camí d'exploració 
+		srand(time(NULL));
+		mcc = mccCandidats[rand()%candidats]; // Tria aleatòria del camí d'exploració 
 		
-		mcp.cami->node[mcp.cami->llargada] = mcc->owner->id;
+		mcp.cami->node[mcp.cami->llargada] = mcc->owner->id; // Afegim node al camí de l'acord multilateral
 		mcp.cami->llargada++;
 
 		if (mcc->constraint == mcp.owner->host) {

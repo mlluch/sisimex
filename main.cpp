@@ -1,9 +1,10 @@
 // SiSiMEX little v1.0 Novembre 2017 - main.cpp
-// Autor (codi base): MagÌ Lluch-Ariet
-// Autor (adaptaciÛ): 
-// LlicËncia: LGPL v3 
+// Autor (codi base): Mag√≠ Lluch-Ariet
+// Autor (adaptaci√≥): 
+// Llic√®ncia: LGPL v3 
 //
-// SimulaciÛ del funcionament del Sistema d'Intercanvi d'Elements en Xarxa (SiSiMEX)
+// Simulaci√≥ del funcionament del Sistema d'Intercanvi Multilateral d'Elements en Xarxa (SiSiMEX)
+// Versi√≥ acad√®mica basada en el projecte MOSAIC
 
 #include <iostream>
 #include "sisimex.h"
@@ -22,7 +23,7 @@ void activarMCP(Node *n, char element, Acord *cami,int inicial) {
 	n->mcp[n->numMCP].request = element;
 	n->mcp[n->numMCP].owner = n;
 	n->mcp[n->numMCP].cami = cami;
-	if (inicial) { // pel primer MCP inicialitzem el camÌ de l'acord amb el node del MCP
+	if (inicial) { // pel primer MCP inicialitzem el cam√≠ de l'acord amb el node del MCP
 		n->mcp[n->numMCP].cami->llargada = 1;
 		n->mcp[n->numMCP].cami->node[0] = n->id;
 		n->mcp[n->numMCP].cami->owner = &(n->mcp[n->numMCP]);
@@ -90,7 +91,7 @@ int explorar(MCP mcp, YellowPages y) {
 	candidats=ConsultarYellowPages(y, mccCandidats, mcp.request);
 	if (candidats > 0) {
 		
-		mcc = mccCandidats[rand()%(candidats)]; // Tria aleatÚria del camÌ d'exploraciÛ 
+		mcc = mccCandidats[rand()%(candidats)]; // Tria aleat√≤ria del cam√≠ d'exploraci√≥ 
 		
 		mcp.cami->node[mcp.cami->llargada] = mcc->owner->id;
 		mcp.cami->llargada++;
@@ -99,7 +100,7 @@ int explorar(MCP mcp, YellowPages y) {
 			mcp.cami->node[mcp.cami->llargada++] = mcp.owner->id; // Tanquem l'acord multilateral amb el node inicial
 			acord = 1;
 			}
-		else if (loop(mcp.cami, mcc)) { // MCC candidat ja pertany al camÌ construit del pre-acord. Tanquem acord.
+		else if (loop(mcp.cami, mcc)) { // MCC candidat ja pertany al cam√≠ construit del pre-acord. Tanquem acord.
 			std::cout << std::endl << "<Loop detectat>" << std::endl;
 			std::cout << "Node "<<mcp.owner->id<<": Petitioner  "<<mcp.owner->numMCP <<" Request: " << mcp.request << std::endl;
 			std::cout << "Node "<<mcc->owner->id<<": Contributor " << mcc->owner->numMCC << " Offer:   " << mcc->offer << " (aquest contributor ja formava part del pre-acord construit)" << std::endl;
@@ -107,13 +108,13 @@ int explorar(MCP mcp, YellowPages y) {
 			}
 		else {
 			activarMCP(mcp.owner, mcc->constraint, mcp.cami,0);
-			acord = explorar(mcp.owner->mcp[mcp.owner->numMCP-1], y); // ActivaciÛ recursiva de l'exploraciÛ de la xarxa
+			acord = explorar(mcp.owner->mcp[mcp.owner->numMCP-1], y); // Activaci√≥ recursiva de l'exploraci√≥ de la xarxa
 			}
 		}
 	return acord;
 	}
 
-void visualitzarXarxa(Node n[],int nombre) { // FunciÛ per la visualitzaciÛ de la xarxa
+void visualitzarXarxa(Node n[],int nombre) { // Funci√≥ per la visualitzaci√≥ de la xarxa
 	int i;
 
 	std::cout << "Sistema de Suport a l'Intercanvi Multilateral d'Elements en Xarxa" << std::endl;
@@ -134,12 +135,12 @@ void visualitzarXarxa(Node n[],int nombre) { // FunciÛ per la visualitzaciÛ de l
 	std::cout << n[i].numMCC << "]";
 	std::cout << std::endl;
 
-	std::cout << "Offer:      ["; // NomÈs visualitza el que ofereix el primer MCC de cada Node (!)
+	std::cout << "Offer:      ["; // Nom√©s visualitza el que ofereix el primer MCC de cada Node (!)
 	for (i = 0; i < (nombre - 1); i++) std::cout << n[i].mcc[0].offer<< ",";
 	std::cout << n[i].mcc[0].offer << "]";
 	std::cout << std::endl;
 
-	std::cout << "Constraint: ["; // NomÈs visualitza el que reclama el primer MCC de cada Node (!)
+	std::cout << "Constraint: ["; // Nom√©s visualitza el que reclama el primer MCC de cada Node (!)
 	for (i = 0; i < (nombre - 1); i++) std::cout << n[i].mcc[0].constraint << ",";
 	std::cout << n[i].mcc[0].constraint << "]";
 	std::cout << std::endl << std::endl;
@@ -149,13 +150,13 @@ void visualitzarXarxa(Node n[],int nombre) { // FunciÛ per la visualitzaciÛ de l
 	std::cout << n[i].numMCP << "]";
 	std::cout << std::endl;
 
-	std::cout << "Request:    ["; // NomÈs visualitza el que demana el primer MCP de cada Node (!)
+	std::cout << "Request:    ["; // Nom√©s visualitza el que demana el primer MCP de cada Node (!)
 	for (i = 0; i < (nombre - 1); i++) std::cout << n[i].mcp[0].request << ",";
 	std::cout << n[i].mcp[0].request << "]";
 	std::cout << std::endl << std::endl;
 }
 
-void visualitzarAcords(MCP mcp) { // FunciÛ per la visualitzaciÛ dels acord multilaterals trobats
+void visualitzarAcords(MCP mcp) { // Funci√≥ per la visualitzaci√≥ dels acord multilaterals trobats
 	int i;
 
 	std::cout << std::endl << "Acord (nodes): [";
@@ -167,14 +168,14 @@ void visualitzarAcords(MCP mcp) { // FunciÛ per la visualitzaciÛ dels acord mult
 
 void main() { // Codi principal, on s'inicialitza la xarxa, s'activen els Agents MCC i MCP i la cerca del acords multilaterals
 	
-	Node node[6];   // Els 6 nodes de la xarxa en la que farem la simulaciÛ
+	Node node[6];   // Els 6 nodes de la xarxa en la que farem la simulaci√≥
 	YellowPages yp; // Serevei de directori (on registrarem els MCC actius)
 	Acord cami;     // Nodes que formen part de l'acord multilateral
-	int acord=0;    // Indica si l'exploraciÛ ha estat satisfactÚria
-	int root = 1;   // inidica que estem a l'inici de l'exploraciÛ (activaciÛ prim‡ria de MCP)
+	int acord=0;    // Indica si l'exploraci√≥ ha estat satisfact√≤ria
+	int root = 1;   // inidica que estem a l'inici de l'exploraci√≥ (activaci√≥ prim√†ria de MCP)
 
 	yp.numMCC = 0;  // Inicialitza les YellowPages
-	camiNet(&cami); // Inicialitza el camÌ
+	camiNet(&cami); // Inicialitza el cam√≠
 
 	activarNode(&node[0], 1,'E'); // Node 1
 	activarNode(&node[1], 2,'A'); // Node 2
@@ -193,10 +194,10 @@ void main() { // Codi principal, on s'inicialitza la xarxa, s'activen els Agents
 	visualitzarXarxa(node, 6);
 	std::cout << "Exploracio amb seleccio aleatoria del cami (torna'm a executar per intentar trobar cami alternatiu)" << std::endl;
 
-	acord=explorar(node[0].mcp[0],yp); // ActivaciÛ de l'exploraciÛ de la xarxa pel 1r MCP del Node1
+	acord=explorar(node[0].mcp[0],yp); // Activaci√≥ de l'exploraci√≥ de la xarxa pel 1r MCP del Node1
 
 	if (acord) visualitzarAcords(node[0].mcp[0]);
-	else std::cout << "No s'ha trobat cap acord multilateral en aquesta exploraciÛ" << std::endl;
+	else std::cout << "No s'ha trobat cap acord multilateral en aquesta exploraci√≥" << std::endl;
 	
 	system("pause");
 	}

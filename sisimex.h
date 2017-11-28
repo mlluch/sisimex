@@ -39,3 +39,4 @@ struct YellowPages {
 	int numMCC; // Quantitat de MCC registrats
 	MCC *mcc[10]; // Apuntador al MCC
 	};
+ 

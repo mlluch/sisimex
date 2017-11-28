@@ -1,7 +1,9 @@
 // SiSiMEX little v1.0 Novembre 2017 - sisimex.h
-// Autor (codi base): MagÌ Lluch-Ariet
-// Autor (adaptaciÛ): 
-// LlicËncia: LGPL v3 
+// Autor (codi base): Mag√≠ Lluch-Ariet
+// Autor (adaptaci√≥): 
+// Llic√®ncia: LGPL v3
+//
+// Simulaci√≥ del Sistema de Suport a l'Intercanvi Multilateral d'Elements en Xarxa (SiSiMEX)
 
 struct Node;
 struct MCP;
@@ -9,7 +11,7 @@ struct MCP;
 struct Acord {
 	int llargada; //quantitat de nodes de l'acord
 	int node[10]; //nodes que defineixen l'acord trobat pel MCP
-	MCP *owner;   // MCP al que est‡ vinculat l'acord
+	MCP *owner;   // MCP al que est√† vinculat l'acord
 	};
 
 struct MCP {
@@ -20,7 +22,7 @@ struct MCP {
 
 struct MCC {
 	char offer; // Element que ofereix el MCC
-	char constraint; // RestricciÛ del MCC per entregar el que ofereix
+	char constraint; // Restricci√≥ del MCC per entregar el que ofereix
 	Node *owner; // Node propietari del MCC
 	};
 

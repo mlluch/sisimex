@@ -3,7 +3,7 @@
 // Autor (adaptació): 
 // Llicència: LGPL v3 
 //
-// Simulació del funcionament del Sistema d'Intercanvi Multilateral d'Elements en Xarxa (SiSiMEX)
+// Simulació del Sistema de Suport a l'Intercanvi Multilateral d'Elements en Xarxa (SiSiMEX)
 // Versió acadèmica basada en el projecte MOSAIC
 
 #include <iostream>
